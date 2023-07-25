@@ -23,16 +23,16 @@ _start:
     ; Convert the integer to an ASCII string
     mov eax, [num]            ; Load the input integer into EAX
     mov ebx, 10               ; Base 10 for conversion
-    mov ecx, buffer           ; Load the address of the buffer to store the ASCII string
-    add ecx, 11               ; Move the pointer to the end of the buffer
-    mov byte [ecx], 0         ; Null-terminate the string
+    mov edi, buffer           ; Load the address of the buffer to store the ASCII string
+    add edi, 11               ; Move the pointer to the end of the buffer
+    mov byte [edi], 0         ; Null-terminate the string
 
 convert_loop:
-    dec ecx                   ; Move the pointer one position back in the buffer
+    dec edi                   ; Move the pointer one position back in the buffer
     xor edx, edx              ; Clear EDX for division
     div ebx                   ; Divide EAX by 10, quotient in EAX, remainder in EDX
     add dl, '0'               ; Convert the remainder to ASCII character
-    mov [ecx], dl             ; Store the ASCII character in the buffer
+    mov [edi], dl             ; Store the ASCII character in the buffer
 
     test eax, eax             ; Check if quotient is zero
     jnz convert_loop          ; If not zero, continue the loop
@@ -40,7 +40,7 @@ convert_loop:
     ; Print the ASCII string
     mov eax, 4                 ; Syscall number for write
     mov ebx, 1                 ; File descriptor 1 (stdout)
-    lea ecx, [buffer]         ; Load the address of the ASCII string
+    lea ecx, [edi]            ; Load the address of the ASCII string
     mov edx, 12               ; Length of the ASCII string (including null terminator)
     sub edx, ecx              ; Calculate the number of bytes to print
     int 0x80                   ; Invoke the syscall to print the ASCII string
