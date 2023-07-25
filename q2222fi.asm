@@ -41,8 +41,8 @@ convert_loop:
     mov eax, 4                 ; Syscall number for write
     mov ebx, 1                 ; File descriptor 1 (stdout)
     lea ecx, [edi]            ; Load the address of the ASCII string
-    mov edx, 12               ; Length of the ASCII string (including null terminator)
-    sub edx, ecx              ; Calculate the number of bytes to print
+    sub ecx, buffer           ; Calculate the number of bytes to print
+    add ecx, 1                ; Add 1 to include the null terminator
     int 0x80                   ; Invoke the syscall to print the ASCII string
 
     ; Exit the program
