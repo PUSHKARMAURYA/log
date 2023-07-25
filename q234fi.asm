@@ -23,8 +23,7 @@ _start:
     ; Convert the integer to an ASCII string
     mov eax, [num]            ; Load the input integer into EAX
     mov ebx, 10               ; Base 10 for conversion
-    mov edi, buffer           ; Load the address of the buffer to store the ASCII string
-    add edi, 11               ; Move the pointer to the end of the buffer
+    mov edi, buffer + 11      ; Move the pointer to the last position of the buffer
     mov byte [edi], 0         ; Null-terminate the string
 
 convert_loop:
@@ -42,7 +41,7 @@ convert_loop:
     mov ebx, 1                 ; File descriptor 1 (stdout)
     lea ecx, [edi]            ; Load the address of the ASCII string
     sub ecx, buffer           ; Calculate the number of bytes to print
-    add ecx, 1                ; Add 1 to include the null terminator
+    inc ecx                   ; Add 1 to include the null terminator
     int 0x80                   ; Invoke the syscall to print the ASCII string
 
     ; Exit the program
